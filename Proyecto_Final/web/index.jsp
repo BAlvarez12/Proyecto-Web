@@ -53,8 +53,8 @@
         <a href="javascript:void(0);" id="empleados-link"><i class="material-icons">person</i> Empleados</a>
         <a href="javascript:void(0);" id="Puestos-link"><i class="material-icons">switch_account</i> Puestos</a>
         <a href="javascript:void(0);" id="clientes-link"><i class="material-icons">person_pin</i> Clientes</a>
-        <a href="javascript:void(0);"><i class="material-icons">group</i> Proveedores</a>
-        <a href="javascript:void(0);"><i class="material-icons">add_box</i> Marcas</a>
+        <a href="javascript:void(0);" id="proveedores-link"><i class="material-icons">group</i> Proveedores</a>
+        <a href="javascript:void(0);" id="marcas-link"><i class="material-icons">add_box</i> Marcas</a>
         <a href="javascript:void(0);"><i class="material-icons">local_shipping</i> Productos</a>
         <a href="javascript:void(0);"><i class="material-icons">account_circle</i> Usuarios</a>
     </div>
@@ -81,6 +81,13 @@
                 $('#clientes-link').click(function(){
         $('#contenido-dinamico').load('clientes.jsp');
     });
+        $('#proveedores-link').click(function(){
+            $('#contenido-dinamico').load('proveedores.jsp');
+        });
+        
+        $('#marcas-link').click(function(){
+            $('#contenido-dinamico').load('marcas.jsp');
+        });
          
             });
     </script>
