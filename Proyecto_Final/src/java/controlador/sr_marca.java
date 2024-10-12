@@ -40,65 +40,33 @@ public class sr_marca extends HttpServlet {
             
              marcas = new Marcas(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_marca"));
              
-             /*if ("agregarp".equals(request.getParameter("btn_agregarp"))) {
-                 if (puesto.agregar() > 0) {
-                  request.setAttribute("mensaje", "Empleado agregado exitosamente");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             } else {
-                 response.getWriter().write("error"); // Devolver 'error' si hubo un problema
-             }
-         }  
+            if ("agregar".equals(request.getParameter("btn_agregar"))) {
+                if (marcas.agregar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Marca agregada con éxito.");
+                } else {
+                    request.getSession().setAttribute("mensaje", "Error al agregar la Marca.");
+                }
+                response.sendRedirect("index.jsp");
+            }
              
-             if ("eliminarp".equals(request.getParameter("btn_eliminarp"))) {
-                 if (puesto.eliminar()> 0) {
-                  request.setAttribute("mensaje", "Empleado agregado exitosamente");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             } else {
-                 response.getWriter().write("error"); // Devolver 'error' si hubo un problema
-             }
-         }  
+             if ("modificar".equals(request.getParameter("btn_modificar"))) {
+                if (marcas.modificar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Marca modificada con éxito.");
+                } else {
+                    request.getSession().setAttribute("mensaje", "Error al modificar la Marca.");
+                }
+                response.sendRedirect("index.jsp");
+            }
              
-              if ("modificarp".equals(request.getParameter("btn_modificarp"))) {
-                 if (puesto.modificar()> 0) {
-                  request.setAttribute("mensaje", "Empleado agregado exitosamente");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             } else {
-                 response.getWriter().write("error"); // Devolver 'error' si hubo un problema
-             }
-         }  
-
-         /*if ("modificar".equals(request.getParameter("btn_modificar"))) {
-             if (puesto.modificar() > 0) {
-                 response.getWriter().write("success");
-             } else {
-                 response.getWriter().write("error");
-             }
-         }
-
-         if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
-             if (empleado.eliminar() > 0) {
-                 response.getWriter().write("success");
-             } else {
-                 response.getWriter().write("error");
-             }
-         }*/
-                 
-    
-       
-           // empleado.agregar();
-          
-               
-               /*out.println("<h1>Ingreso Exitoso</h1>");
-               out.println("<a href ='index.jsp'>Regresar</a>");*/
-  
-            
-            //out.println("<h1>Ingreso Exitoso</h1>");
-            /* out.println("<p>" + request.getParameter("txt_nombres")+"</p>");
-            out.println("<p>" + request.getParameter("txt_apellidos")+"</p>");
-            out.println("<p>" + request.getParameter("txt_direccion")+"</p>");
-            out.println("<p>" + request.getParameter("txt_telefono")+"</p>");
-            out.println("<p>" + request.getParameter("txt_fn")+"</p>");
-            out.println("<p>" + request.getParameter("drop_puesto")+"</p>");*/
+             if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
+                if (marcas.eliminar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Marca eliminada con éxito.");
+                } else {
+                    request.getSession().setAttribute("mensaje", "Error al eliminar la Marca.");
+                }
+                response.sendRedirect("index.jsp");
+            }
+             
             out.println("</body>");
             out.println("</html>");
         }

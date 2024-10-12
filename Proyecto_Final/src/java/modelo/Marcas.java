@@ -6,6 +6,7 @@ package modelo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -41,7 +42,26 @@ public class Marcas{
    
     }
     
-     
+    
+    // metodo cargar puesto
+    public HashMap drop_marcas(){
+    HashMap<String,String> drop = new HashMap();
+    try{
+        cn= new Conexion ();
+        String query="select id_marca, marca from marcas;";
+        cn.abrir_conexion();
+        ResultSet consulta = cn.conexionDB.createStatement().executeQuery(query);
+        while(consulta.next()){
+        drop.put(consulta.getString("id_marca"), consulta.getString("marca"));
+        }
+       cn.cerrar_conexion();
+    }catch(SQLException ex){
+    System.out.println(ex.getMessage());
+    }
+    return drop;
+    }
+    
+     //Metodo leer Marca
         public DefaultTableModel leer(){
             DefaultTableModel tabla = new DefaultTableModel();
             try{
@@ -66,13 +86,14 @@ public class Marcas{
 
             return tabla;
         }
-    
+        
+            //Metodo insert Marca
             public int agregar(){
                 int retorno = 0;
             try{
              PreparedStatement parametro;
              cn = new Conexion();
-             String query = "INSERT INTO puestos ( puesto ) VALUES ( ? );";
+             String query = "INSERT INTO marcas ( marca ) VALUES ( ? );";
              cn.abrir_conexion();
              parametro = (PreparedStatement) cn.conexionDB.prepareStatement(query);
              parametro.setString(1, getMarca());
@@ -86,21 +107,21 @@ public class Marcas{
             return retorno;
             }
    
-   
+            //Metodo modificar Marca
         public int modificar() {
          int retorno = 0;
          try {
              PreparedStatement parametro;
              cn = new Conexion();
-             String query = " UPDATE puestos SET puesto = ? WHERE id_puesto = ? ; ";
+             String query = " UPDATE marcas SET marca = ? WHERE id_marca = ? ; ";
              cn.abrir_conexion();
              parametro = (PreparedStatement) cn.conexionDB.prepareStatement(query);
-             parametro.setInt(0, getId_marca());
              parametro.setString(1, getMarca());
+             parametro.setInt(2, getId_marca());
              retorno = parametro.executeUpdate();
              cn.cerrar_conexion();
          } catch (SQLException ex) {
-             System.out.println("Error al modificar puesto: " + ex.getMessage());
+             System.out.println("Error al modificar la Marca: " + ex.getMessage());
              retorno = 0;
          }
          return retorno;
@@ -112,14 +133,14 @@ public class Marcas{
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "DELETE FROM puestos WHERE id_puesto = ?;";
+            String query = "DELETE FROM marcas WHERE id_marca = ?;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionDB.prepareStatement(query);
             parametro.setInt(1, getId_marca());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
-            System.out.println("Error al eliminar puesto: " + ex.getMessage());
+            System.out.println("Error al eliminar la Marca: " + ex.getMessage());
             retorno = 0;
         }
         return retorno;

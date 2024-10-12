@@ -1,8 +1,17 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    // Verificar si el usuario está autenticado
+    if (session.getAttribute("usuario") == null) {
+        // Si no está autenticado, redirigir a home.jsp
+        response.sendRedirect("home.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -55,7 +64,7 @@
         <a href="javascript:void(0);" id="clientes-link"><i class="material-icons">person_pin</i> Clientes</a>
         <a href="javascript:void(0);" id="proveedores-link"><i class="material-icons">group</i> Proveedores</a>
         <a href="javascript:void(0);" id="marcas-link"><i class="material-icons">add_box</i> Marcas</a>
-        <a href="javascript:void(0);"><i class="material-icons">local_shipping</i> Productos</a>
+        <a href="javascript:void(0);" id="productos-link"><i class="material-icons">local_shipping</i> Productos</a>
         <a href="javascript:void(0);"><i class="material-icons">account_circle</i> Usuarios</a>
     </div>
    
@@ -111,6 +120,10 @@
             // Cargar el contenido de marcas
             $('#marcas-link').click(function(){
                 $('#contenido-dinamico').load('marcas.jsp');
+            });
+            // Cargar el contenido de productos
+            $('#productos-link').click(function(){
+            $('#contenido-dinamico').load('productos.jsp');
             });
         });
     </script>
