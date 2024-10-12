@@ -1,4 +1,4 @@
 # Proyecto-Web
 
 
-Base de datos trabajada por Wilmer
+Carga unicamente de datos actualizados, correctos y validados
