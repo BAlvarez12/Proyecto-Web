@@ -6,6 +6,7 @@ package modelo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,8 +14,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Bomiki
  */
 public class Cliente {
-    private String nombres, apellidos, correo_electronico, fecha_ingreso;
+    private String nombres, apellidos, correo_electronico ;
     private int id_cliente, nit, genero, telefono;
+    private java.sql.Timestamp fecha_ingreso;
     private Conexion cn;
 
     
@@ -23,7 +25,7 @@ public class Cliente {
         
     }
     
-    public Cliente( int id_cliente, String nombres, String apellidos, int nit, int genero, int telefono, String correo_electronico, String fecha_ingreso) {
+    public Cliente( int id_cliente, String nombres, String apellidos, int nit, int genero, int telefono, String correo_electronico, Timestamp fecha_ingreso) {
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.correo_electronico = correo_electronico;
@@ -34,7 +36,7 @@ public class Cliente {
         this.telefono = telefono;
     }
     
-       public String getNombres() {
+     public String getNombres() {
         return nombres;
     }
 
@@ -58,6 +60,14 @@ public class Cliente {
         this.correo_electronico = correo_electronico;
     }
 
+    public Timestamp getFecha_ingreso() {
+        return fecha_ingreso;
+    }
+
+    public void setFecha_ingreso(java.sql.Timestamp fecha_ingreso) {
+        this.fecha_ingreso = fecha_ingreso;
+    }
+
     public int getId_cliente() {
         return id_cliente;
     }
@@ -74,6 +84,14 @@ public class Cliente {
         this.nit = nit;
     }
 
+    public int getGenero() {
+        return genero;
+    }
+
+    public void setGenero(int genero) {
+        this.genero = genero;
+    }
+
     public int getTelefono() {
         return telefono;
     }
@@ -81,16 +99,17 @@ public class Cliente {
     public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
-    
-    // METODO LEER DATOS DEL EMPLEADO
+   
+  
+    // Metodo leer datos del cliente
     public DefaultTableModel leer(){
         DefaultTableModel tabla = new DefaultTableModel();
         try{
             cn = new Conexion();
             cn.abrir_conexion();
-            String query = "select a.id_cliente, a.nombres, a.apellidos, a.nit, s.id_genero, s.genero, a.telefono, a.correo_electronico, a.fecha_ingreso from clientes a inner join genero s on s.id_genero = a.genero order by id_cliente asc;";
+            String query = "select a.id_cliente, a.nombres, a.apellidos, a.nit, s.id_genero, s.genero, a.telefono, a.correo_electronico from clientes a inner join genero s on s.id_genero = a.genero order by id_cliente asc;";
             ResultSet consulta = cn.conexionDB.createStatement().executeQuery(query);
-            String encabezado [] = {"id_cliente", "nombres", "apellidos", "nit", "genero", "genero", "telefono", "correo_electronico", "fecha_ingreso"};
+            String encabezado [] = {"id_cliente", "nombres", "apellidos", "nit", "id_genero", "genero", "telefono", "correo_electronico"};
             tabla.setColumnIdentifiers(encabezado);
             String datos[] = new String[9];
             while (consulta.next()){
@@ -102,7 +121,6 @@ public class Cliente {
                 datos[5] = consulta.getString("genero");
                 datos[6] = consulta.getString("telefono");
                 datos[7] = consulta.getString("correo_electronico");
-                datos[8] = consulta.getString("fecha_ingreso");
                 tabla.addRow(datos);
                 
             }
@@ -115,27 +133,23 @@ public class Cliente {
         
         return tabla;
     }
-    /*
-     // METODO INSERTAR EMPLEADO
-            @Override
+
+     // Metodo insertar cliente
         public int agregar() {
             int retorno = 0;
             try {
                 PreparedStatement parametro;
                 cn = new Conexion();
-                String query = "INSERT INTO empleados ( nombres , apellidos , direccion , telefono , dpi , genero , fecha_nacimiento , id_puesto , fecha_inicio_labores , fecha_ingreso ) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? );";
+                String query = "INSERT INTO clientes ( nombres , apellidos , nit , genero , telefono , correo_electronico ,fecha_ingreso ) VALUES ( ? , ? , ? , ? , ? , ? , ? );";
                 cn.abrir_conexion(); 
                 parametro = cn.conexionDB.prepareStatement(query);
                 parametro.setString(1, getNombres()); 
                 parametro.setString(2, getApellidos()); 
-                parametro.setString(3, getDireccion()); 
-                parametro.setString(4, getTelefono()); 
-                parametro.setString(5, getDpi());
-                parametro.setInt(6, getGenero()); 
-                parametro.setString(7, getFecha_nacimiento()); 
-                parametro.setInt(8, getId_puesto()); 
-                parametro.setString(9, getFecha_inicio_labores()); 
-                parametro.setString(10, getFecha_ingreso()); 
+                parametro.setInt(3, getNit()); 
+                parametro.setInt(4, getGenero()); 
+                parametro.setInt(5, getTelefono()); 
+                parametro.setString(6, getCorreo_electronico()); 
+                parametro.setTimestamp(7, getFecha_ingreso()); 
                 retorno = parametro.executeUpdate();
                 cn.cerrar_conexion();
             } catch (SQLException ex) {
@@ -145,27 +159,23 @@ public class Cliente {
             return retorno;
         }
             
-         // METODO ACTUALIZAR EMPLEADO
-                @Override
+         // Metodo modificar clientes
             public int modificar() {
             int retorno = 0;
             try {
                 PreparedStatement parametro;
                 cn = new Conexion();
-                String query = "UPDATE empleados SET nombres=?, apellidos=?, direccion=?, telefono=?, fecha_nacimiento=?, id_puesto=?, dpi=?, genero=?, fecha_inicio_labores=?, fecha_ingreso=? WHERE id_empleados = ?;";
+                String query = "UPDATE clientes SET nombres=?, apellidos=?, nit=?, genero=?, telefono=?, correo_electronico=?, fecha_ingreso=? WHERE id_cliente = ?;";
                 cn.abrir_conexion();
                 parametro = cn.conexionDB.prepareStatement(query);
-                parametro.setString(1, getNombres());
-                parametro.setString(2, getApellidos());
-                parametro.setString(3, getDireccion());
-                parametro.setString(4, getTelefono());
-                parametro.setString(5, getFecha_nacimiento());
-                parametro.setInt(6, getId_puesto());
-                parametro.setString(7, getDpi());
-                parametro.setInt(8, getGenero());
-                parametro.setString(9, getFecha_inicio_labores()); 
-                parametro.setString(10, getFecha_ingreso());       
-                parametro.setInt(11, getId_empleados());           
+                parametro.setString(1, getNombres()); 
+                parametro.setString(2, getApellidos()); 
+                parametro.setInt(3, getNit()); 
+                parametro.setInt(4, getGenero()); 
+                parametro.setInt(5, getTelefono()); 
+                parametro.setString(6, getCorreo_electronico()); 
+                parametro.setTimestamp(7, getFecha_ingreso());     
+                parametro.setInt(8, getId_cliente()); 
                 retorno = parametro.executeUpdate();
                 cn.cerrar_conexion();
             } catch (SQLException ex) {
@@ -175,17 +185,16 @@ public class Cliente {
             return retorno;
         }
 
-                //METODO ELIMINAR EMPLEADO
-            @Override
+                //Metodo eliminar cliente
             public int eliminar(){
                int retorno = 0;
            try{
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "delete from empleados where id_empleados = ? ;";
+            String query = "delete from clientes where id_cliente = ? ;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionDB.prepareStatement(query);
-            parametro.setInt(1, getId_empleados());
+            parametro.setInt(1, getId_cliente());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
 
@@ -193,7 +202,9 @@ public class Cliente {
              System.out.println("Error al eliminar el empleado: " + ex.getMessage());
               retorno = 0;
              }
-             return retorno;*/
+             return retorno;
          }
+}
+   
 
  

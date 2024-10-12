@@ -5,6 +5,7 @@
 package modelo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -12,8 +13,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Bomiki
  */
 public class Proveedor {
-    private String proveedor, direccion;
-    private int id_proveedor, nit,telefono;
+    private String proveedor, direccion, telefono;
+    private int id_proveedor, nit;
     private Conexion cn;
 
     
@@ -22,7 +23,7 @@ public class Proveedor {
         
     }
     
-    public Proveedor( int id_proveedor, String proveedor, int nit,  String direccion, int telefono) {
+    public Proveedor( int id_proveedor, String proveedor, int nit,  String direccion, String telefono) {
         this.id_proveedor = id_proveedor;
         this.proveedor = proveedor;
         this.nit = nit;
@@ -62,17 +63,17 @@ public class Proveedor {
         this.nit = nit;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
     
     
-    // METODO LEER DATOS DEL EMPLEADO
+    // Metodo leer proveedor
     public DefaultTableModel leer(){
         DefaultTableModel tabla = new DefaultTableModel();
         try{
@@ -101,57 +102,43 @@ public class Proveedor {
         
         return tabla;
     }
-    /*
-     // METODO INSERTAR EMPLEADO
-            @Override
+    
+     //Metodo insertar proveedor
         public int agregar() {
             int retorno = 0;
             try {
                 PreparedStatement parametro;
                 cn = new Conexion();
-                String query = "INSERT INTO empleados ( nombres , apellidos , direccion , telefono , dpi , genero , fecha_nacimiento , id_puesto , fecha_inicio_labores , fecha_ingreso ) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? );";
+                String query = "INSERT INTO proveedores ( proveedor , nit , direccion , telefono ) VALUES ( ? , ? , ? , ? );";
                 cn.abrir_conexion(); 
                 parametro = cn.conexionDB.prepareStatement(query);
-                parametro.setString(1, getNombres()); 
-                parametro.setString(2, getApellidos()); 
+                parametro.setString(1, getProveedor()); 
+                parametro.setInt(2, getNit()); 
                 parametro.setString(3, getDireccion()); 
                 parametro.setString(4, getTelefono()); 
-                parametro.setString(5, getDpi());
-                parametro.setInt(6, getGenero()); 
-                parametro.setString(7, getFecha_nacimiento()); 
-                parametro.setInt(8, getId_puesto()); 
-                parametro.setString(9, getFecha_inicio_labores()); 
-                parametro.setString(10, getFecha_ingreso()); 
                 retorno = parametro.executeUpdate();
                 cn.cerrar_conexion();
             } catch (SQLException ex) {
-                System.out.println("Error al insertar el empleado: " + ex.getMessage()); 
+                System.out.println("Error al insertar el proveedor: " + ex.getMessage()); 
                 retorno = 0;
             }
             return retorno;
         }
             
-         // METODO ACTUALIZAR EMPLEADO
-                @Override
+         // Metodo actualizar proveedor
             public int modificar() {
             int retorno = 0;
             try {
                 PreparedStatement parametro;
                 cn = new Conexion();
-                String query = "UPDATE empleados SET nombres=?, apellidos=?, direccion=?, telefono=?, fecha_nacimiento=?, id_puesto=?, dpi=?, genero=?, fecha_inicio_labores=?, fecha_ingreso=? WHERE id_empleados = ?;";
+                String query = "UPDATE proveedores SET proveedor=?, nit=?, direccion=?, telefono=? WHERE id_proveedores = ?;";
                 cn.abrir_conexion();
                 parametro = cn.conexionDB.prepareStatement(query);
-                parametro.setString(1, getNombres());
-                parametro.setString(2, getApellidos());
-                parametro.setString(3, getDireccion());
-                parametro.setString(4, getTelefono());
-                parametro.setString(5, getFecha_nacimiento());
-                parametro.setInt(6, getId_puesto());
-                parametro.setString(7, getDpi());
-                parametro.setInt(8, getGenero());
-                parametro.setString(9, getFecha_inicio_labores()); 
-                parametro.setString(10, getFecha_ingreso());       
-                parametro.setInt(11, getId_empleados());           
+                parametro.setString(1, getProveedor()); 
+                parametro.setInt(2, getNit()); 
+                parametro.setString(3, getDireccion()); 
+                parametro.setString(4, getTelefono()); 
+                parametro.setInt(5, getId_proveedor());        
                 retorno = parametro.executeUpdate();
                 cn.cerrar_conexion();
             } catch (SQLException ex) {
@@ -161,17 +148,16 @@ public class Proveedor {
             return retorno;
         }
 
-                //METODO ELIMINAR EMPLEADO
-            @Override
+                //Metodo eliminar proveedor
             public int eliminar(){
                int retorno = 0;
            try{
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "delete from empleados where id_empleados = ? ;";
+            String query = "delete from proveedores where id_proveedores = ? ;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionDB.prepareStatement(query);
-            parametro.setInt(1, getId_empleados());
+            parametro.setInt(1, getId_proveedor());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
 
@@ -179,8 +165,9 @@ public class Proveedor {
              System.out.println("Error al eliminar el empleado: " + ex.getMessage());
               retorno = 0;
              }
-             return retorno;*/
+             return retorno;
 
             }
+        }
 
  
