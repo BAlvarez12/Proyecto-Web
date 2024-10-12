@@ -1,4 +1,4 @@
 # Proyecto-Web
 
 
-Base de datos trabajada por Wilmer
+Datos del proyecto sin archivos basura
