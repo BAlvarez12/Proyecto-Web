@@ -12,7 +12,7 @@
     <div class="container mt-4">
         <h1>Marcas</h1>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_marca" onclick="limpiar()">Agregar</button>
-        <div class="modal fade" id="modal_puesto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modal_marca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -20,27 +20,19 @@
                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="sr_puesto" method="post" class="form-group">
-                             <form action="sr_puesto" method="post" class="form-group"> 
-                                 
-                <label for="lbl_id"><b>ID:</b></label>
-                <input type="text" name="txt_id" id="txt_id" class="form-control"  value="0" readonly>                 
-                <label for="lbl_marca"><b>Marca:</b></label>
-                <input type="text" name="txt_marca" id="txt_marca" class="form-control" placeholder="Ejemplo" required>
-                <br>
-                 <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button name="btn_agregarp" id="btn_agregarp" value="agregarp" class="btn btn-primary">Guardar</button>
-                        <button name="btn_modificarp" id="btn_modificarp" value="modificarp" class="btn btn-success">Modificar</button>
-                        <button name="btn_eliminarp" id="btn_eliminarp" value="eliminarp" class="btn btn-danger" onclick="javascript:if(!confirm('Desea Eliminar?'))return false">Eliminar</button>
-                        
-                <!-- <button name="btn_agregar" id="btn_agregar" value="agregar" class="btn btn-primary">Agregar</button>
-                <button name="btn_eliminar" id="btn_eliminar" value="eliminar" class="btn btn-danger" onclick="javascript:if(!confirm('Desea Eliminar?'))return false">Eliminar</button>
-                %-->
-            </form>
+                        <form action="sr_marca" method="post" class="form-group" id="form_marca">
+                            <label for="lbl_id"><b>ID:</b></label>
+                            <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>                 
+                            <label for="lbl_marca"><b>Marca:</b></label>
+                            <input type="text" name="txt_marca" id="txt_marca" class="form-control" placeholder="Ejemplo" required>
+                            <br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" name="btn_agregar" id="btn_agregar" value="agregar" class="btn btn-primary">Guardar</button>
+                                <button type="submit" name="btn_modificar" id="btn_modificar" value="modificar" class="btn btn-success">Modificar</button>
+                                <button type="button" class="btn btn-danger" id="btn_eliminar" data-bs-toggle="modal" data-bs-target="#modalConfirmacion">Eliminar</button>
+                            </div>
                         </form>
-                    </div>
-                   
                     </div>
                 </div>
             </div>
@@ -55,41 +47,67 @@
             <tbody id="tbl_marca">
                 <%
                     Marcas marcas = new Marcas();
-                    DefaultTableModel tabla = new DefaultTableModel();
-                    tabla = marcas.leer();
+                    DefaultTableModel tabla = marcas.leer();
                     for(int t = 0; t < tabla.getRowCount(); t++){
-                        out.println("<tr data-id_marcao=" + tabla.getValueAt(t, 0) +">");
+                        out.println("<tr data-id_marca='" + tabla.getValueAt(t, 0) + "'>");
                         out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                         out.println("</tr>");
                     }
-                    %>
-
-               <script type="text/javascript">
-                   
-            function limpiar(){
-                $("#txt_id").val(0);
-                $("#txt_marca").val('');
-                
-            }
-            
-        $(document).ready(function() {
-            cargarPuesto();
-        });
-               
-            $('#tbl_marca').on('click', 'tr td', function(evt) {
-                console.log("Clic en una celda");
-                var target, id_marca, marca;
-                target = $(event.target);
-                id_marca = target.parent().data('id_marca');
-                marca = target.parent("tr").find("td").eq(0).html();
-                $("#txt_id").val(id_marca);
-                $("#txt_marca").val(marca);
-                $("#modal_marca").modal('show');
-                
-            });
-        </script>
+                %>
             </tbody>
         </table>
+
+        <!-- Confirmar eliminacion -->
+        <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalConfirmacionLabel">Confirmar Eliminar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Está seguro de que desea eliminar esta marca?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb7x1l5F3i5s0l4l7NME57K7lN5e5q5g5d6vA" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMN00AokAGBfS8f8k5PcUtx8RmgQ4Ly4Qo9VV7Si1LpD+plWTo+lFi4iA2cPw0J8" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGhv1BBm4rZr5f9EaZhl8y3tlF8ox8a4f4Y5WeUc0e6e/mGyf4gpPeUyG6g" crossorigin="anonymous"></script>
+
+        <script type="text/javascript">
+            function limpiar() {
+                $("#txt_id").val(0);
+                $("#txt_marca").val('');
+            }
+
+            $(document).ready(function() {
+                // Cuando el usuario haga clic en el botón de confirmar eliminación
+                $("#btnConfirmarEliminar").on("click", function() {
+                    // Crear un campo oculto para enviar el valor "eliminar"
+                    $("#form_marca").append('<input type="hidden" name="btn_eliminar" value="eliminar">');
+                    // Enviar el formulario al confirmar eliminación
+                    $("#form_marca").submit();
+                });
+
+                // Clic en una fila para editar
+                $('#tbl_marca').on('click', 'tr', function() {
+                    var target = $(this);
+                    var id_marca = target.data('id_marca');
+                    var marca = target.find("td").eq(0).html();
+                    
+                    $("#txt_id").val(id_marca);
+                    $("#txt_marca").val(marca);
+                    
+                    $("#modal_marca").modal('show');
+                });
+            });
+        </script>
     </div>
 </body>
 </html>
