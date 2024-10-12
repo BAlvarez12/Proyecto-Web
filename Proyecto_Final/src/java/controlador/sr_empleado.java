@@ -38,79 +38,42 @@ public class sr_empleado extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             
-            empleado = new Empleado(Integer.parseInt(request.getParameter("txt_id")),Integer.parseInt(request.getParameter("drop_puesto")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),Integer.parseInt(request.getParameter("txt_genero")),request.getParameter("txt_dpi"),request.getParameter("txt_fn"),request.getParameter("txt_fe_inicio"),request.getParameter("txt_fe_ingreso"));
             
-            if ("agregar".equals(request.getParameter("btn_agregar"))) {
-                 if (empleado.agregar() > 0) {
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             } else {
-                 response.getWriter().write("error");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             }
-         }
-            if ("modificar".equals(request.getParameter("btn_modificar"))) {
-                 if (empleado.modificar()> 0) {
-                  request.setAttribute("mensaje", "Empleado agregado exitosamente");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             } else {
-                 response.getWriter().write("error");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             }
-         }
-                    if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
-             try {
-                 System.out.println("ID del empleado a eliminar: " + request.getParameter("txt_id"));
-                 if (empleado.eliminar() > 0) {
-                     System.out.println("El empleado fue eliminado correctamente.");
-                     request.setAttribute("mensaje", "Empleado eliminado exitosamente.");
-                     request.getRequestDispatcher("index.jsp").forward(request, response);
-                 } else {
-                     System.out.println("Error al intentar eliminar el empleado.");
-                     request.setAttribute("mensaje", "Error al eliminar el empleado.");
-                     request.getRequestDispatcher("index.jsp").forward(request, response);
-                 }
-             } catch (ServletException | IOException e) {
-                 System.out.println("Error al procesar la solicitud de eliminación: " + e.getMessage());
-                 response.getWriter().write("Error: " + e.getMessage());
-             }
-         }
+        String gparametro = request.getParameter("txt_genero");
+        int genero = 0;
+        if (gparametro != null && !gparametro.isEmpty()) {
+            genero = Integer.parseInt(gparametro);
+        }
+            
+            empleado = new Empleado(Integer.parseInt(request.getParameter("txt_id")),Integer.parseInt(request.getParameter("drop_puesto")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),genero,request.getParameter("txt_dpi"),request.getParameter("txt_fn"),request.getParameter("txt_fe_inicio"),request.getParameter("txt_fe_ingreso"));
 
-
-            
-            
-                /*if ("agregar".equals(request.getParameter("btn_agregar"))) {
-                 if (empleado.agregar()> 0) {
-                  request.setAttribute("mensaje", "Empleado agregado exitosamente");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             } else {
-                 response.getWriter().write("error"); // Devolver 'error' si hubo un problema
-             }
-         }*/
-                
-                            /*if ("agregar".equals(request.getParameter("btn_agregar"))) {
+             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (empleado.agregar() > 0) {
-                    request.setAttribute("mensaje", "Empleado agregado exitosamente");
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    request.getSession().setAttribute("mensaje", "Empleado agregado con éxito.");
                 } else {
-                    request.setAttribute("mensaje", "Error al agregar el empleado. Por favor revisa la consola para más detalles.");
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    request.getSession().setAttribute("mensaje", "Error al agregar el empleado.");
                 }
-            }*/
-        
-           // empleado.agregar();
-          
-               
-               /*out.println("<h1>Ingreso Exitoso</h1>");
-               out.println("<a href ='index.jsp'>Regresar</a>");*/
-  
-            
-            //out.println("<h1>Ingreso Exitoso</h1>");
-            /* out.println("<p>" + request.getParameter("txt_nombres")+"</p>");
-            out.println("<p>" + request.getParameter("txt_apellidos")+"</p>");
-            out.println("<p>" + request.getParameter("txt_direccion")+"</p>");
-            out.println("<p>" + request.getParameter("txt_telefono")+"</p>");
-            out.println("<p>" + request.getParameter("txt_fn")+"</p>");
-            out.println("<p>" + request.getParameter("drop_puesto")+"</p>");*/
+                response.sendRedirect("index.jsp");
+            }
+             
+             if ("modificar".equals(request.getParameter("btn_modificar"))) {
+                if (empleado.modificar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Empleado modificado con éxito.");
+                } else {
+                    request.getSession().setAttribute("mensaje", "Error al modificar el empleado.");
+                }
+                response.sendRedirect("index.jsp");
+            }
+             
+             if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
+                if (empleado.eliminar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Empleado eliminado con éxito.");
+                } else {
+                    request.getSession().setAttribute("mensaje", "Error al eliminar el empleado.");
+                }
+                response.sendRedirect("index.jsp");
+            }
+             
             out.println("</body>");
             out.println("</html>");
         

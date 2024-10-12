@@ -13,8 +13,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Bomiki
  */
 public class Empleado extends Persona {
-    private String dpi,fecha_inicio_labores,fecha_ingreso;
-    private int id_puesto, genero;
+    private String  dpi, fecha_inicio_labores,fecha_ingreso;
+    private int id_puesto, genero ;
     private Conexion cn;
 
     public Empleado() {
@@ -115,7 +115,7 @@ public class Empleado extends Persona {
                 cn = new Conexion();
                 String query = "INSERT INTO empleados ( nombres , apellidos , direccion , telefono , dpi , genero , fecha_nacimiento , id_puesto , fecha_inicio_labores , fecha_ingreso ) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? );";
                 cn.abrir_conexion(); 
-                parametro = cn.conexionDB.prepareStatement(query);
+                parametro = (PreparedStatement) cn.conexionDB.prepareStatement(query);
                 parametro.setString(1, getNombres()); 
                 parametro.setString(2, getApellidos()); 
                 parametro.setString(3, getDireccion()); 
@@ -128,12 +128,14 @@ public class Empleado extends Persona {
                 parametro.setString(10, getFecha_ingreso()); 
                 retorno = parametro.executeUpdate();
                 cn.cerrar_conexion();
-            } catch (SQLException ex) {
-                System.out.println("Error al insertar el empleado: " + ex.getMessage()); 
-                retorno = 0;
+            }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            retorno = 0;
             }
-            return retorno;
-        }
+           return retorno;
+           }
+        
             
          // METODO ACTUALIZAR EMPLEADO
                 @Override

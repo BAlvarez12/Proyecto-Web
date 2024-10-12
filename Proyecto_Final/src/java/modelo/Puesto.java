@@ -41,26 +41,25 @@ public class Puesto {
         this.puesto = puesto;
     }
     
-    
+    // metodo cargar puesto
     public HashMap drop_puesto(){
     HashMap<String,String> drop = new HashMap();
     try{
         cn= new Conexion ();
         String query="select id_puesto, puesto from puestos;";
-                cn.abrir_conexion();
-                ResultSet consulta = cn.conexionDB.createStatement().executeQuery(query);
-                while(consulta.next()){
-                    drop.put(consulta.getString("id_puesto"), consulta.getString("puesto"));
-                }
-                
-                cn.cerrar_conexion();
+        cn.abrir_conexion();
+        ResultSet consulta = cn.conexionDB.createStatement().executeQuery(query);
+        while(consulta.next()){
+        drop.put(consulta.getString("id_puesto"), consulta.getString("puesto"));
+        }
+       cn.cerrar_conexion();
     }catch(SQLException ex){
-        System.out.println(ex.getMessage());
+    System.out.println(ex.getMessage());
     }
     return drop;
     }
     
-     
+      // Metodo leer puesto
         public DefaultTableModel leer(){
             DefaultTableModel tabla = new DefaultTableModel();
             try{
@@ -86,6 +85,7 @@ public class Puesto {
             return tabla;
         }
     
+            //Metodo insertar puesto
             public int agregar(){
                 int retorno = 0;
             try{
@@ -105,7 +105,7 @@ public class Puesto {
             return retorno;
             }
    
-   
+            // Metodo modificar puesto
         public int modificar() {
          int retorno = 0;
          try {
@@ -114,8 +114,8 @@ public class Puesto {
              String query = " UPDATE puestos SET puesto = ? WHERE id_puesto = ? ; ";
              cn.abrir_conexion();
              parametro = (PreparedStatement) cn.conexionDB.prepareStatement(query);
-             parametro.setInt(0, getId_puesto());
              parametro.setString(1, getPuesto());
+             parametro.setInt(2, getId_puesto());
              retorno = parametro.executeUpdate();
              cn.cerrar_conexion();
          } catch (SQLException ex) {
@@ -125,7 +125,7 @@ public class Puesto {
          return retorno;
      }
         
-        
+        //Metodo eliminar puesto
             public int eliminar() {
         int retorno = 0;
         try {

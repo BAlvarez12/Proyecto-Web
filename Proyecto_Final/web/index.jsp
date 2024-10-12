@@ -60,9 +60,31 @@
     </div>
    
     <div class="content">
-        <div id="contenido-dinamico">
-            
+        <div id="contenido-dinamico"></div>
+
+        <!-- Verifica si hay mensaje -->
+        <%
+            String mensaje = (String) session.getAttribute("mensaje");
+            if (mensaje != null) {
+        %>
+        <div class="alert alert-success d-flex align-items-center" role="alert" id="mensajeAlerta">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <span id="mensajeTexto"><%= mensaje %></span>
         </div>
+
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function() {
+                var mensajeAlerta = document.getElementById("mensajeAlerta");
+                setTimeout(function(){
+                    mensajeAlerta.remove();
+                }, 2000);
+            });
+        </script>
+
+        <%
+            session.removeAttribute("mensaje");
+        %>
+        <% } %>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -70,26 +92,27 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            //cargar el contenido de empleados 
+            // Cargar el contenido de empleados
             $('#empleados-link').click(function(){
                 $('#contenido-dinamico').load('empleados.jsp');
             });
-            //cargar el contenido de puestos
+            // Cargar el contenido de puestos
             $('#Puestos-link').click(function(){
-        $('#contenido-dinamico').load('Puestos.jsp');
-    });
-                $('#clientes-link').click(function(){
-        $('#contenido-dinamico').load('clientes.jsp');
-    });
-        $('#proveedores-link').click(function(){
-            $('#contenido-dinamico').load('proveedores.jsp');
-        });
-        
-        $('#marcas-link').click(function(){
-            $('#contenido-dinamico').load('marcas.jsp');
-        });
-         
+                $('#contenido-dinamico').load('Puestos.jsp');
             });
+            // Cargar el contenido de clientes
+            $('#clientes-link').click(function(){
+                $('#contenido-dinamico').load('clientes.jsp');
+            });
+            // Cargar el contenido de proveedores
+            $('#proveedores-link').click(function(){
+                $('#contenido-dinamico').load('proveedores.jsp');
+            });
+            // Cargar el contenido de marcas
+            $('#marcas-link').click(function(){
+                $('#contenido-dinamico').load('marcas.jsp');
+            });
+        });
     </script>
 </body>
 </html>

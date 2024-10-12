@@ -40,65 +40,34 @@ public class sr_puesto extends HttpServlet {
             
              puesto = new Puesto(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_puesto"));
              
-             if ("agregarp".equals(request.getParameter("btn_agregarp"))) {
-                 if (puesto.agregar() > 0) {
-                  request.setAttribute("mensaje", "Empleado agregado exitosamente");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             } else {
-                 response.getWriter().write("error"); // Devolver 'error' si hubo un problema
-             }
-         }  
+             if ("agregar".equals(request.getParameter("btn_agregar"))) {
+                if (puesto.agregar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Puesto agregado con éxito.");
+                } else {
+                    request.getSession().setAttribute("mensaje", "Error al agregar el puesto.");
+                }
+                response.sendRedirect("index.jsp");
+            }
              
-             if ("eliminarp".equals(request.getParameter("btn_eliminarp"))) {
-                 if (puesto.eliminar()> 0) {
-                  request.setAttribute("mensaje", "Empleado agregado exitosamente");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             } else {
-                 response.getWriter().write("error"); // Devolver 'error' si hubo un problema
-             }
-         }  
              
-              if ("modificarp".equals(request.getParameter("btn_modificarp"))) {
-                 if (puesto.modificar()> 0) {
-                  request.setAttribute("mensaje", "Empleado agregado exitosamente");
-                 request.getRequestDispatcher("index.jsp").forward(request, response);
-             } else {
-                 response.getWriter().write("error"); // Devolver 'error' si hubo un problema
-             }
-         }  
+             if ("modificar".equals(request.getParameter("btn_modificar"))) {
+                if (puesto.modificar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Puesto modificado con éxito.");
+                } else {
+                    request.getSession().setAttribute("mensaje", "Error al modificar el puesto.");
+                }
+                response.sendRedirect("index.jsp");
+            }
+             
+              if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
+                if (puesto.eliminar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Puesto eliminado con éxito.");
+                } else {
+                    request.getSession().setAttribute("mensaje", "Error al eliminar el puesto.");
+                }
+                response.sendRedirect("index.jsp");
+            }
 
-         /*if ("modificar".equals(request.getParameter("btn_modificar"))) {
-             if (puesto.modificar() > 0) {
-                 response.getWriter().write("success");
-             } else {
-                 response.getWriter().write("error");
-             }
-         }
-
-         if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
-             if (empleado.eliminar() > 0) {
-                 response.getWriter().write("success");
-             } else {
-                 response.getWriter().write("error");
-             }
-         }*/
-                 
-    
-       
-           // empleado.agregar();
-          
-               
-               /*out.println("<h1>Ingreso Exitoso</h1>");
-               out.println("<a href ='index.jsp'>Regresar</a>");*/
-  
-            
-            //out.println("<h1>Ingreso Exitoso</h1>");
-            /* out.println("<p>" + request.getParameter("txt_nombres")+"</p>");
-            out.println("<p>" + request.getParameter("txt_apellidos")+"</p>");
-            out.println("<p>" + request.getParameter("txt_direccion")+"</p>");
-            out.println("<p>" + request.getParameter("txt_telefono")+"</p>");
-            out.println("<p>" + request.getParameter("txt_fn")+"</p>");
-            out.println("<p>" + request.getParameter("drop_puesto")+"</p>");*/
             out.println("</body>");
             out.println("</html>");
         }
