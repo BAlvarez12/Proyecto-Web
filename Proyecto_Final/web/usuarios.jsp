@@ -1,4 +1,5 @@
-<%@page import="modelo.Cliente" %>
+<%@page import="modelo.Usuarios" %>
+<%@page import="modelo.Roles" %>
 <%@page import="java.util.HashMap" %>
 <%@page import="javax.swing.table.DefaultTableModel" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -42,51 +43,55 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Clientes</h1>
+        <h1 class="text-center">Usuarios</h1>
         <div class="d-flex justify-content-end mb-4">
-            <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#modal_cliente" onclick="limpiar()">Agregar Cliente</button>
+            <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#modal_usuarios" onclick="limpiar()">Agregar Usuario</button>
         </div>
 
-        <div class="modal fade" id="modal_cliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modal_usuarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                       <h1 class="modal-title fs-5" id="exampleModalLabel">Clientes</h1>
+                       <h1 class="modal-title fs-5" id="exampleModalLabel">Usuarios</h1>
                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="sr_cliente" method="post" class="form-group" id="form_cliente"> 
+                        <form action="sr_usuarios" method="post" class="form-group" id="form_cliente">
                             <div class="mb-3">
                                 <label for="txt_id" class="form-label">ID:</label>
                                 <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="txt_nombres" class="form-label">Nombres:</label>
-                                <input type="text" name="txt_nombres" id="txt_nombres" class="form-control" placeholder="Ingrese el Nombre" required>
+                                <label for="txt_usuario" class="form-label">Usuario:</label>
+                                <input type="text" name="txt_usuario" id="txt_usuario" class="form-control" placeholder="Ingrese el usuario" required>
                             </div>
                             <div class="mb-3">
-                                <label for="txt_apellidos" class="form-label">Apellidos:</label>
-                                <input type="text" name="txt_apellidos" id="txt_apellidos" class="form-control" placeholder="Ingrese el Apellido" required>
+                                <label for="txt_nombres" class="form-label">Nombre:</label>
+                                <input type="text" name="txt_nombres" id="txt_nombres" class="form-control" placeholder="Ingrese el nombre" required>
                             </div>
                             <div class="mb-3">
-                                <label for="txt_nit" class="form-label">Nit:</label>
-                                <input type="text" name="txt_nit" id="txt_nit" class="form-control" placeholder="Ingrese el NIT" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="txt_genero" class="form-label">Género:</label>
-                                <select name="txt_genero" id="txt_genero" class="form-select" required>
-                                    <option value="">Seleccione un género</option>
-                                    <option value="1">Masculino</option>
-                                    <option value="0">Femenino</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="txt_telefono" class="form-label">Teléfono:</label>
-                                <input type="number" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ingrese el teléfono" required>
+                                <label for="txt_apellidos" class="form-label">Apellido:</label>
+                                <input type="text" name="txt_apellidos" id="txt_apellidos" class="form-control" placeholder="Ingrese el apellido" required>
                             </div>
                             <div class="mb-3">
                                 <label for="txt_ce" class="form-label">Correo Electrónico:</label>
                                 <input type="email" name="txt_ce" id="txt_ce" class="form-control" placeholder="Ingrese el correo electrónico" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_contrasena" class="form-label">Contraseña:</label>
+                                <input type="password" name="txt_contrasena" id="txt_contrasena" class="form-control" placeholder="Ingrese la contraseña">
+                            </div>
+                            <div class="mb-3">
+                                <label for="drop_rol" class="form-label">Rol:</label>
+                                <select name="drop_rol" id="drop_rol" class="form-select">
+                                   <%
+                                      Roles roles = new Roles();
+                                      HashMap<String,String> drop = roles.drop_rol();
+                                      for(String i: drop.keySet()){
+                                        out.println("<option value='" + i + "'>" + drop.get(i) + "</option>");
+                                      }
+                                   %>
+                                </select>
                             </div>
                             <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -103,25 +108,23 @@
         <table class="table table-striped table-bordered mt-4">
             <thead class="table-header">
                 <tr>
-                    <th scope="col">Nombres</th>
-                    <th scope="col">Apellidos</th>
-                    <th scope="col">Nit</th>
-                    <th scope="col">Género</th>
-                    <th scope="col">Teléfono</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
                     <th scope="col">Correo Electrónico</th>
+                    <th scope="col">Rol</th>
                 </tr>
             </thead>
-            <tbody id="tbl_clientes">
+            <tbody id="tbl_usuarios">
                 <%
-                    Cliente cliente = new Cliente();
-                    DefaultTableModel tabla = cliente.leer();
-                    for(int t = 0; t < tabla.getRowCount(); t++){
-                        out.println("<tr data-id_cliente='" + tabla.getValueAt(t, 0) + "' data-genero='" + tabla.getValueAt(t, 4) + "'>");
+                    Usuarios usuarios = new Usuarios();
+                    DefaultTableModel tabla = usuarios.leer();
+                    for (int t = 0; t < tabla.getRowCount(); t++) {
+                        out.println("<tr data-id_usuarios='" + tabla.getValueAt(t, 0) + "' data-contrasena='" + tabla.getValueAt(t, 5) + "' data-id_rol='" + tabla.getValueAt(t, 6) + "'>");
                         out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                         out.println("<td>" + tabla.getValueAt(t, 2) + "</td>");
                         out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
-                        out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
-                        out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
+                        out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
                         out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
                         out.println("</tr>");
                     }
@@ -129,7 +132,6 @@
             </tbody>
         </table>
 
-        <!-- Confirmar eliminacion -->
         <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -138,7 +140,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        ¿Está seguro de que desea eliminar este cliente?
+                        ¿Está seguro de que desea eliminar este usuario?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -155,12 +157,12 @@
         <script type="text/javascript">
             function limpiar() {
                 $("#txt_id").val(0);
+                $("#txt_usuario").val('');
                 $("#txt_nombres").val('');
                 $("#txt_apellidos").val('');
-                $("#txt_nit").val('');
-                $("#txt_genero").val('');
-                $("#txt_telefono").val('');
                 $("#txt_ce").val('');
+                $("#txt_contrasena").val('');
+                $("#drop_rol").val(1);
             }
 
             $(document).ready(function() {
@@ -171,25 +173,22 @@
                 });
 
                 // Clic en una fila para editar
-                $('#tbl_clientes').on('click', 'tr', function() {
+                $('#tbl_usuarios').on('click', 'tr', function() {
                     var target = $(this);
-                    var id_cliente = target.data('id_cliente');
-                    var nombres = target.find("td").eq(0).html();
-                    var apellidos = target.find("td").eq(1).html();
-                    var nit = target.find("td").eq(2).html();
-                    var genero = target.find("td").eq(3).html();
-                    var telefono = target.find("td").eq(4).html();
-                    var correo_electronico = target.find("td").eq(5).html();
+                    var id_usuarios = target.data('id_usuarios');
+                    var usuario = target.find("td").eq(0).html();
+                    var nombres = target.find("td").eq(1).html();
+                    var apellidos = target.find("td").eq(2).html();
+                    var correo_electronico = target.find("td").eq(3).html();
+                    var id_rol = target.data('id_rol');
                     
-                    $("#txt_id").val(id_cliente);
+                    $("#txt_id").val(id_usuarios);
+                    $("#txt_usuario").val(usuario);
                     $("#txt_nombres").val(nombres);
                     $("#txt_apellidos").val(apellidos);
-                    $("#txt_nit").val(nit);
-                    $("#txt_genero").val(genero === "Masculino" ? 1 : 0);
-                    $("#txt_telefono").val(telefono);
                     $("#txt_ce").val(correo_electronico);
-                    
-                    $("#modal_cliente").modal('show');
+                    $("#drop_rol").val(id_rol);
+                    $("#modal_usuarios").modal('show');
                 });
             });
         </script>

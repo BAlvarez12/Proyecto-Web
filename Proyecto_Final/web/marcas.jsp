@@ -7,11 +7,46 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .modal-body {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+        .form-control {
+            border-radius: 0.5rem;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .modal-footer {
+            border-top: none;
+        }
+        h1 {
+            color: #00bfa5;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        .btn-custom {
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .table-header {
+            background-color: #000000;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h1>Marcas</h1>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_marca" onclick="limpiar()">Agregar</button>
+    <div class="container mt-5">
+        <h1 class="text-center">Marcas</h1>
+        <div class="d-flex justify-content-end mb-4">
+            <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#modal_marca" onclick="limpiar()">Agregar Marca</button>
+        </div>
+
         <div class="modal fade" id="modal_marca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -21,12 +56,15 @@
                     </div>
                     <div class="modal-body">
                         <form action="sr_marca" method="post" class="form-group" id="form_marca">
-                            <label for="lbl_id"><b>ID:</b></label>
-                            <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>                 
-                            <label for="lbl_marca"><b>Marca:</b></label>
-                            <input type="text" name="txt_marca" id="txt_marca" class="form-control" placeholder="Ejemplo" required>
-                            <br>
-                            <div class="modal-footer">
+                            <div class="mb-3">
+                                <label for="txt_id" class="form-label">ID:</label>
+                                <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_marca" class="form-label">Marca:</label>
+                                <input type="text" name="txt_marca" id="txt_marca" class="form-control" placeholder="Ingrese la marca" required>
+                            </div>
+                            <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 <button type="submit" name="btn_agregar" id="btn_agregar" value="agregar" class="btn btn-primary">Guardar</button>
                                 <button type="submit" name="btn_modificar" id="btn_modificar" value="modificar" class="btn btn-success">Modificar</button>
@@ -38,8 +76,8 @@
             </div>
         </div>
 
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-striped table-bordered mt-4">
+            <thead class="table-header">
                 <tr>
                     <th scope="col">Marca</th>
                 </tr>

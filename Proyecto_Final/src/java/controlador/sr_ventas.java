@@ -9,13 +9,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import modelo.Empleado;
+import modelo.Ventas;
 
 /**
  *
  * @author Bomiki
  */
-public class sr_empleado extends HttpServlet {
+public class sr_ventas extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -26,65 +26,66 @@ public class sr_empleado extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     Empleado empleado;
+    Ventas ventas;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet sr_empleado</title>");
+            out.println("<title>Servlet sr_ventas</title>");
             out.println("</head>");
             out.println("<body>");
             
             
-        String gparametro = request.getParameter("txt_genero");
-        int genero = 0;
-        if (gparametro != null && !gparametro.isEmpty()) {
-            genero = Integer.parseInt(gparametro);
-        }
-            
-            empleado = new Empleado(Integer.parseInt(request.getParameter("txt_id")),
-                    Integer.parseInt(request.getParameter("drop_puesto")),
-                    request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),
-                    request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),
-                    genero,request.getParameter("txt_dpi"),request.getParameter("txt_fn"),
-                    request.getParameter("txt_fe_inicio"),request.getParameter("txt_fe_ingreso"));
+          ventas = new Ventas(
+                Integer.parseInt(request.getParameter("txt_no_factura")),
+                Integer.parseInt(request.getParameter("txt_serie")),
+                request.getParameter("txt_fecha_factura"),
+                Integer.parseInt(request.getParameter("drop_cliente")),
+                Integer.parseInt(request.getParameter("drop_empleado")),
+                new java.sql.Timestamp(System.currentTimeMillis()),
+                0,
+                Integer.parseInt(request.getParameter("drop_producto")),
+                Integer.parseInt(request.getParameter("txt_cantidad")),
+                Integer.parseInt(request.getParameter("txt_precio_unitario"))
+        );
 
-             if ("agregar".equals(request.getParameter("btn_agregar"))) {
-                if (empleado.agregar() > 0) {
-                    request.getSession().setAttribute("mensaje", "Empleado agregado con éxito.");
-                } else {
-                    request.getSession().setAttribute("mensaje", "Error al agregar el empleado.");
-                }
-                response.sendRedirect("index.jsp");
+        // Operaciones agregar, modificar, eliminar
+        if ("agregar".equals(request.getParameter("btn_agregar"))) {
+            if (ventas.agregar() > 0) {
+                request.getSession().setAttribute("mensaje", "Venta agregada con éxito.");
+            } else {
+                request.getSession().setAttribute("mensaje", "Error al agregar la venta.");
             }
-             
-             if ("modificar".equals(request.getParameter("btn_modificar"))) {
-                if (empleado.modificar() > 0) {
-                    request.getSession().setAttribute("mensaje", "Empleado modificado con éxito.");
-                } else {
-                    request.getSession().setAttribute("mensaje", "Error al modificar el empleado.");
-                }
-                response.sendRedirect("index.jsp");
+            response.sendRedirect("index.jsp");
+        }
+
+        if ("modificar".equals(request.getParameter("btn_modificar"))) {
+            if (ventas.modificar() > 0) {
+                request.getSession().setAttribute("mensaje", "Venta modificada con éxito.");
+            } else {
+                request.getSession().setAttribute("mensaje", "Error al modificar la venta.");
             }
-             
-             if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
-                if (empleado.eliminar() > 0) {
-                    request.getSession().setAttribute("mensaje", "Empleado eliminado con éxito.");
-                } else {
-                    request.getSession().setAttribute("mensaje", "Error al eliminar el empleado.");
-                }
-                response.sendRedirect("index.jsp");
+            response.sendRedirect("index.jsp");
+        }
+
+        if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
+            if (ventas.eliminar() > 0) {
+                request.getSession().setAttribute("mensaje", "Venta eliminada con éxito.");
+            } else {
+                request.getSession().setAttribute("mensaje", "Error al eliminar la venta.");
             }
-             
+            response.sendRedirect("index.jsp");
+        }
             out.println("</body>");
             out.println("</html>");
-        
+        }
     }
-    }
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -121,6 +122,6 @@ public class sr_empleado extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// <//*editor-fold>*/
-}
+    }// </editor-fold>
 
+}

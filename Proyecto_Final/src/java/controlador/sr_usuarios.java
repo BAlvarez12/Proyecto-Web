@@ -9,13 +9,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import modelo.Empleado;
+import modelo.Usuarios;
 
 /**
  *
  * @author Bomiki
  */
-public class sr_empleado extends HttpServlet {
+public class sr_usuarios extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -26,7 +26,7 @@ public class sr_empleado extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     Empleado empleado;
+     Usuarios usuarios;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -39,42 +39,38 @@ public class sr_empleado extends HttpServlet {
             out.println("<body>");
             
             
-        String gparametro = request.getParameter("txt_genero");
-        int genero = 0;
-        if (gparametro != null && !gparametro.isEmpty()) {
-            genero = Integer.parseInt(gparametro);
-        }
-            
-            empleado = new Empleado(Integer.parseInt(request.getParameter("txt_id")),
-                    Integer.parseInt(request.getParameter("drop_puesto")),
-                    request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),
-                    request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),
-                    genero,request.getParameter("txt_dpi"),request.getParameter("txt_fn"),
-                    request.getParameter("txt_fe_inicio"),request.getParameter("txt_fe_ingreso"));
+            usuarios = new Usuarios(Integer.parseInt(request.getParameter("txt_id")),
+                    request.getParameter("txt_usuario"),
+                    request.getParameter("txt_nombres"),
+                    request.getParameter("txt_apellidos"),
+                    request.getParameter("txt_ce"),
+                    request.getParameter("txt_contrasena"),
+                    Integer.parseInt(request.getParameter("drop_rol"))
+                    );
 
              if ("agregar".equals(request.getParameter("btn_agregar"))) {
-                if (empleado.agregar() > 0) {
-                    request.getSession().setAttribute("mensaje", "Empleado agregado con éxito.");
+                if (usuarios.agregar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Usuario agregado con éxito.");
                 } else {
-                    request.getSession().setAttribute("mensaje", "Error al agregar el empleado.");
+                    request.getSession().setAttribute("mensaje", "Error al agregar el usuario.");
                 }
                 response.sendRedirect("index.jsp");
             }
              
              if ("modificar".equals(request.getParameter("btn_modificar"))) {
-                if (empleado.modificar() > 0) {
-                    request.getSession().setAttribute("mensaje", "Empleado modificado con éxito.");
+                if (usuarios.modificar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Usuario modificado con éxito.");
                 } else {
-                    request.getSession().setAttribute("mensaje", "Error al modificar el empleado.");
+                    request.getSession().setAttribute("mensaje", "Error al modificar el Usuario.");
                 }
                 response.sendRedirect("index.jsp");
             }
              
              if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
-                if (empleado.eliminar() > 0) {
-                    request.getSession().setAttribute("mensaje", "Empleado eliminado con éxito.");
+                if (usuarios.eliminar() > 0) {
+                    request.getSession().setAttribute("mensaje", "Usuario eliminado con éxito.");
                 } else {
-                    request.getSession().setAttribute("mensaje", "Error al eliminar el empleado.");
+                    request.getSession().setAttribute("mensaje", "Error al eliminar el Usuario.");
                 }
                 response.sendRedirect("index.jsp");
             }

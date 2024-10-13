@@ -7,11 +7,45 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .modal-body {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+        .form-control {
+            border-radius: 0.5rem;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .modal-footer {
+            border-top: none;
+        }
+        h1 {
+            color: #00bfa5;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        .btn-custom {
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .table-header {
+            background-color: #000000;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h1>Clientes</h1>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_cliente" onclick="limpiar()">Agregar</button>
+    <div class="container mt-5">
+        <h1 class="text-center">Clientes</h1>
+        <div class="d-flex justify-content-end mb-4">
+            <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#modal_cliente" onclick="limpiar()">Agregar Cliente</button>
+        </div>
 
         <div class="modal fade" id="modal_cliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -22,26 +56,39 @@
                     </div>
                     <div class="modal-body">
                         <form action="sr_cliente" method="post" class="form-group" id="form_cliente"> 
-                            <label for="lbl_id"><b>ID:</b></label>
-                            <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
-                            <label for="lbl_nombres"><b>Nombres:</b></label>
-                            <input type="text" name="txt_nombres" id="txt_nombres" class="form-control" placeholder="Ingrese el Nombre" required>
-                            <label for="lbl_apellidos"><b>Apellidos:</b></label>
-                            <input type="text" name="txt_apellidos" id="txt_apellidos" class="form-control" placeholder="Ingrese el Apellido" required>
-                            <label for="lbl_Nit"><b>Nit:</b></label>
-                            <input type="text" name="txt_nit" id="txt_nit" class="form-control" placeholder="Ingrese el NIT" required>
-                            <label for="txt_genero"><b>Género</b></label>
-                            <select name="txt_genero" id="txt_genero" class="form-control" required>
-                                <option value="">Seleccione un género</option>
-                                <option value="1">Masculino</option>
-                                <option value="0">Femenino</option>
-                            </select>
-                            <label for="lbl_telefono"><b>Teléfono:</b></label>
-                            <input type="number" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ingrese el teléfono" required>
-                            <label for="lbl_correo_electronico"><b>Correo Electrónico:</b></label>
-                            <input type="email" name="txt_ce" id="txt_ce" class="form-control" placeholder="Ingrese el correo electrónico" required>
-                            <br>
-                            <div class="modal-footer">
+                            <div class="mb-3">
+                                <label for="txt_id" class="form-label">ID:</label>
+                                <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_nombres" class="form-label">Nombres:</label>
+                                <input type="text" name="txt_nombres" id="txt_nombres" class="form-control" placeholder="Ingrese el Nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_apellidos" class="form-label">Apellidos:</label>
+                                <input type="text" name="txt_apellidos" id="txt_apellidos" class="form-control" placeholder="Ingrese el Apellido" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_nit" class="form-label">Nit:</label>
+                                <input type="text" name="txt_nit" id="txt_nit" class="form-control" placeholder="Ingrese el NIT" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_genero" class="form-label">Género:</label>
+                                <select name="txt_genero" id="txt_genero" class="form-select" required>
+                                    <option value="">Seleccione un género</option>
+                                    <option value="1">Masculino</option>
+                                    <option value="0">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_telefono" class="form-label">Teléfono:</label>
+                                <input type="number" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ingrese el teléfono" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_ce" class="form-label">Correo Electrónico:</label>
+                                <input type="email" name="txt_ce" id="txt_ce" class="form-control" placeholder="Ingrese el correo electrónico" required>
+                            </div>
+                            <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 <button type="submit" name="btn_agregar" id="btn_agregar" value="agregar" class="btn btn-primary">Guardar</button>
                                 <button type="submit" name="btn_modificar" id="btn_modificar" value="modificar" class="btn btn-success">Modificar</button>
@@ -53,15 +100,15 @@
             </div>
         </div>
 
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-striped table-bordered mt-4">
+            <thead class="table-header">
                 <tr>
                     <th scope="col">Nombres</th>
                     <th scope="col">Apellidos</th>
                     <th scope="col">Nit</th>
-                    <th scope="col">Genero</th>
-                    <th scope="col">Telefono</th>
-                    <th scope="col">Correo Electronico</th>
+                    <th scope="col">Género</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Correo Electrónico</th>
                 </tr>
             </thead>
             <tbody id="tbl_clientes">
@@ -119,9 +166,7 @@
             $(document).ready(function() {
                 // Clic en el boton eliminar
                 $("#btnConfirmarEliminar").on("click", function() {
-                    // envia el valor eliminar
                     $("#form_cliente").append('<input type="hidden" name="btn_eliminar" value="eliminar">');
-                    // enviar formulario al confirmar
                     $("#form_cliente").submit();
                 });
 

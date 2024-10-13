@@ -7,11 +7,45 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .modal-body {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+        .form-control {
+            border-radius: 0.5rem;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .modal-footer {
+            border-top: none;
+        }
+        h1 {
+            color: #00bfa5;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        .btn-custom {
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .table-header {
+            background-color: #000000;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h1>Proveedores</h1>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_proveedores" onclick="limpiar()">Agregar</button>
+    <div class="container mt-5">
+        <h1 class="text-center">Proveedores</h1>
+        <div class="d-flex justify-content-end mb-4">
+            <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#modal_proveedores" onclick="limpiar()">Agregar Proveedor</button>
+        </div>
 
         <div class="modal fade" id="modal_proveedores" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -22,18 +56,27 @@
                     </div>
                     <div class="modal-body">
                         <form action="sr_proveedor" method="post" class="form-group" id="form_proveedor">
-                            <label for="lbl_id"><b>ID:</b></label>
-                            <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
-                            <label for="lbl_proveedor"><b>Proveedor:</b></label>
-                            <input type="text" name="txt_proveedor" id="txt_proveedor" class="form-control" placeholder="Ingrese el Nombre" required>
-                            <label for="lbl_nit"><b>Nit:</b></label>
-                            <input type="text" name="txt_nit" id="txt_nit" class="form-control" placeholder="Ingrese el Nit" required>
-                            <label for="lbl_direccion"><b>Direccion:</b></label>
-                            <input type="text" name="txt_direccion" id="txt_direccion" class="form-control" placeholder="Ingrese la Direccion" required>
-                            <label for="lbl_telefono"><b>Telefono:</b></label>
-                            <input type="number" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ingrese el Telefono" required>
-                            <br>
-                            <div class="modal-footer">
+                            <div class="mb-3">
+                                <label for="txt_id" class="form-label">ID:</label>
+                                <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_proveedor" class="form-label">Proveedor:</label>
+                                <input type="text" name="txt_proveedor" id="txt_proveedor" class="form-control" placeholder="Ingrese el Nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_nit" class="form-label">Nit:</label>
+                                <input type="text" name="txt_nit" id="txt_nit" class="form-control" placeholder="Ingrese el Nit" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_direccion" class="form-label">Dirección:</label>
+                                <input type="text" name="txt_direccion" id="txt_direccion" class="form-control" placeholder="Ingrese la Dirección" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_telefono" class="form-label">Teléfono:</label>
+                                <input type="number" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ingrese el Teléfono" required>
+                            </div>
+                            <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 <button type="submit" name="btn_agregar" id="btn_agregar" value="agregar" class="btn btn-primary">Guardar</button>
                                 <button type="submit" name="btn_modificar" id="btn_modificar" value="modificar" class="btn btn-success">Modificar</button>
@@ -45,13 +88,13 @@
             </div>
         </div>
 
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-striped table-bordered mt-4">
+            <thead class="table-header">
                 <tr>
                     <th scope="col">Proveedor</th>
                     <th scope="col">Nit</th>
-                    <th scope="col">Direccion</th>
-                    <th scope="col">Telefono</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Teléfono</th>
                 </tr>
             </thead>
             <tbody id="tbl_proveedor">
@@ -105,9 +148,7 @@
             $(document).ready(function() {
                 // Clic en el boton eliminar
                 $("#btnConfirmarEliminar").on("click", function() {
-                    // envia el valor eliminar
                     $("#form_proveedor").append('<input type="hidden" name="btn_eliminar" value="eliminar">');
-                    // enviar formulario al confirmar
                     $("#form_proveedor").submit();
                 });
 
@@ -132,4 +173,4 @@
         </script>
     </div>
 </body>
-</html>
+</html>>

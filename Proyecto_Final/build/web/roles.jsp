@@ -1,4 +1,4 @@
-<%@page import="modelo.Puesto" %>
+<%@page import="modelo.Roles" %>
 <%@page import="java.util.HashMap" %>
 <%@page import="javax.swing.table.DefaultTableModel" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -42,26 +42,27 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Puestos</h1>
+        <h1 class="text-center">Roles</h1>
         <div class="d-flex justify-content-end mb-4">
-            <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#modal_puesto" onclick="limpiar()">Agregar Puesto</button>
+            <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#modal_rol" onclick="limpiar()">Agregar Rol</button>
         </div>
-        <div class="modal fade" id="modal_puesto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal fade" id="modal_rol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                       <h1 class="modal-title fs-5" id="exampleModalLabel">Puestos</h1>
+                       <h1 class="modal-title fs-5" id="exampleModalLabel">Roles</h1>
                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="sr_puesto" method="post" id="form_puesto" class="form-group">
+                        <form action="sr_roles" method="post" id="form_rol" class="form-group">
                             <div class="mb-3">
                                 <label for="txt_id" class="form-label">ID:</label>
-                                <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>                 
+                                <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="txt_puesto" class="form-label">Puesto:</label>
-                                <input type="text" name="txt_puesto" id="txt_puesto" class="form-control" placeholder="Ejemplo" required>
+                                <label for="txt_rol" class="form-label">Rol:</label>
+                                <input type="text" name="txt_rol" id="txt_rol" class="form-control" placeholder="Descripción del rol" required>
                             </div>
                             <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -78,16 +79,15 @@
         <table class="table table-striped table-bordered mt-4">
             <thead class="table-header">
                 <tr>
-                    <th scope="col">Puesto</th>
+                    <th scope="col">Rol</th>
                 </tr>
             </thead>
-            <tbody id="tbl_puesto">
+            <tbody id="tbl_rol">
                 <%
-                    Puesto puesto = new Puesto();
-                    DefaultTableModel tabla = new DefaultTableModel();
-                    tabla = puesto.leer();
+                    Roles roles = new Roles();
+                    DefaultTableModel tabla = roles.leer();
                     for(int t = 0; t < tabla.getRowCount(); t++){
-                        out.println("<tr data-id_puesto=" + tabla.getValueAt(t, 0) + ">");
+                        out.println("<tr data-id_rol='" + tabla.getValueAt(t, 0) + "'>");
                         out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                         out.println("</tr>");
                     }
@@ -105,7 +105,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Está seguro de que desea eliminar este puesto?
+                    ¿Está seguro de que desea eliminar este rol?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -121,33 +121,27 @@
     <script type="text/javascript">
         function limpiar() {
             $("#txt_id").val('0');
-            $("#txt_puesto").val('');
+            $("#txt_rol").val('');
         }
 
         $(document).ready(function() {
             // Cuando el usuario haga clic en el botón de confirmar eliminación
-            document.getElementById("btnConfirmarEliminar").addEventListener("click", function() {
-                var form = document.getElementById("form_puesto");
-                var inputEliminar = document.createElement("input");
-                inputEliminar.setAttribute("type", "hidden");
-                inputEliminar.setAttribute("name", "btn_eliminar");
-                inputEliminar.setAttribute("value", "eliminar");
-                form.appendChild(inputEliminar);
-                form.submit();
-                var modalEl = document.getElementById('modalConfirmacion');
-                var modal = bootstrap.Modal.getInstance(modalEl);
-                modal.hide();
+            $("#btnConfirmarEliminar").on("click", function() {
+                // Crear un campo oculto para enviar el valor "eliminar"
+                $("#form_rol").append('<input type="hidden" name="btn_eliminar" value="eliminar">');
+                // Enviar el formulario al confirmar eliminación
+                $("#form_rol").submit();
             });
 
             // Cuando se haga clic en una fila de la tabla
-            $('#tbl_puesto').on('click', 'tr', function() {
+            $('#tbl_rol').on('click', 'tr', function() {
                 var target = $(this);
-                var id_puesto = target.data('id_puesto');
-                var puesto = target.find("td").eq(0).html();
+                var id_rol = target.data('id_rol');
+                var rol = target.find("td").eq(0).html();
 
-                $("#txt_puesto").val(puesto);
-                $("#txt_id").val(id_puesto);
-                $("#modal_puesto").modal('show');
+                $("#txt_rol").val(rol);
+                $("#txt_id").val(id_rol);
+                $("#modal_rol").modal('show');
             });
         });
     </script>
