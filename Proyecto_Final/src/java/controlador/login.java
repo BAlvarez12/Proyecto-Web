@@ -19,7 +19,6 @@ public class login extends HttpServlet {
         // Obtener parámetros del formulario de login
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
-
         // Crear instancia de la clase Conexion
         Conexion cn = new Conexion();
         cn.abrir_conexion();
@@ -27,18 +26,14 @@ public class login extends HttpServlet {
         try {
             // Verificar si la conexión fue exitosa
             if (cn.conexionDB == null) {
-                System.out.println("Error: Conexión a la base de datos fallida.");
+                System.out.println("Error: Conexion a la base de datos fallida.");
                 response.sendRedirect("home.jsp?error=1");
                 return;
             }
-
-            // Preparar la consulta SQL para verificar usuario y contraseña
             String query = "SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ?";
             PreparedStatement parametro = cn.conexionDB.prepareStatement(query);
             parametro.setString(1, username);
             parametro.setString(2, password);
-
-            // Ejecutar la consulta
             ResultSet rs = parametro.executeQuery();
 
             if (rs.next()) {

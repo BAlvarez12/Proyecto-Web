@@ -39,13 +39,7 @@ public class sr_productos extends HttpServlet {
             out.println("<title>Servlet sr_productos</title>");
             out.println("</head>");
             out.println("<body>");
-            
-            String gparametro = request.getParameter("txt_genero");
-            int genero = 0;
-            if (gparametro != null && !gparametro.isEmpty()) {
-                genero = Integer.parseInt(gparametro);
-            }
-        
+           
             Part filePart = request.getPart("file_imagen");
             String fileName = getFileName(filePart);
             String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
@@ -55,11 +49,9 @@ public class sr_productos extends HttpServlet {
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
-            
             // Guardar el archivo en el servidor
             String filePath = uploadPath + File.separator + fileName;
             filePart.write(filePath);
-
             // La URL que se guarda en la base de datos
             String imageUrl = "uploads/" + fileName;
 

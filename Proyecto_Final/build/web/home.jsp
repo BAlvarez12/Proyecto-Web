@@ -54,7 +54,6 @@
                             <button type="submit" class="btn btn-custom w-100">Iniciar Sesión</button>
                         </form>
 
-                        <%-- Mostrar mensaje de error si la autenticación falla --%>
                         <%
                             String error = request.getParameter("error");
                             if (error != null && error.equals("1")) {
