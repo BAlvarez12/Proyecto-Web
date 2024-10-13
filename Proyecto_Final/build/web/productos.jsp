@@ -8,11 +8,56 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .modal-body {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+        .form-control {
+            border-radius: 0.5rem;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .modal-footer {
+            border-top: none;
+        }
+        h1 {
+            color: #00bfa5;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        .btn-custom {
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .table-header {
+            background-color: #000000;
+            color: white;
+        }
+        .img-thumbnail {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .img-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        .modal-img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h1>Productos</h1>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_productos" onclick="limpiar()">Agregar</button>
+    <div class="container mt-5">
+        <h1 class="text-center">Productos</h1>
+        <div class="d-flex justify-content-end mb-4">
+            <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#modal_productos" onclick="limpiar()">Agregar Producto</button>
+        </div>
 
         <div class="modal fade" id="modal_productos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -22,33 +67,48 @@
                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                            <form action="sr_productos" method="post" enctype="multipart/form-data" class="form-group" id="form_cliente">
-                            <label for="lbl_id"><b>ID:</b></label>
-                            <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
-                            <label for="lbl_producto"><b>Producto:</b></label>
-                            <input type="text" name="txt_producto" id="txt_producto" class="form-control" placeholder="Ingrese el producto" required>
-                            <label for="lbl_puesto"><b>Marca:</b></label>
-                            <select name="drop_marca" id="drop_marca" class="form-control">
-                               <%
-                                  Marcas marcas = new Marcas();
-                                  HashMap<String,String> drop = marcas.drop_marcas();
-                                  for(String i: drop.keySet()){
-                                    out.println("<option value='" + i + "'>" + drop.get(i) + "</option>");
-                                  }
-                               %>
-                            </select>
-                            <label for="lbl_descripcion"><b>Descripcion:</b></label>
-                            <input type="text" name="txt_descripcion" id="txt_descripcion" class="form-control" placeholder="Ingrese el Apellido" required>
-                            <label for="lbl_imagen"><b>Imagen:</b></label>
-                            <input type="file" name="file_imagen" id="file_imagen" class="form-control" accept="image/*" required>
-                            <label for="lbl_Precio"><b>Precio:</b></label>
-                            <input type="number" name="txt_precio" id="txt_precio" class="form-control" placeholder="Ingrese el teléfono" required>
-                            <label for="lbl_venta"><b>Precio Venta:</b></label>
-                            <input type="number" name="txt_precio_v" id="txt_precio_v" class="form-control" placeholder="Ingrese el teléfono" required>
-                            <label for="lbl_existencia"><b>Existencia:</b></label>
-                            <input type="number" name="txt_existencia" id="txt_existencia" class="form-control" placeholder="Ingrese el teléfono" required>
-                            <br>
-                            <div class="modal-footer">
+                        <form action="sr_productos" method="post" enctype="multipart/form-data" class="form-group" id="form_producto">
+                            <div class="mb-3">
+                                <label for="txt_id" class="form-label">ID:</label>
+                                <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_producto" class="form-label">Producto:</label>
+                                <input type="text" name="txt_producto" id="txt_producto" class="form-control" placeholder="Ingrese el producto" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="drop_marca" class="form-label">Marca:</label>
+                                <select name="drop_marca" id="drop_marca" class="form-select">
+                                   <%
+                                      Marcas marcas = new Marcas();
+                                      HashMap<String,String> drop = marcas.drop_marcas();
+                                      for(String i: drop.keySet()){
+                                        out.println("<option value='" + i + "'>" + drop.get(i) + "</option>");
+                                      }
+                                   %>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_descripcion" class="form-label">Descripción:</label>
+                                <input type="text" name="txt_descripcion" id="txt_descripcion" class="form-control" placeholder="Ingrese la descripción" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="file_imagen" class="form-label">Imagen:</label>
+                                <input type="file" name="file_imagen" id="file_imagen" class="form-control" accept="image/*" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_precio" class="form-label">Precio Costo:</label>
+                                <input type="number" name="txt_precio" id="txt_precio" class="form-control" placeholder="Ingrese el precio de costo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_precio_v" class="form-label">Precio Venta:</label>
+                                <input type="number" name="txt_precio_v" id="txt_precio_v" class="form-control" placeholder="Ingrese el precio de venta" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_existencia" class="form-label">Existencia:</label>
+                                <input type="number" name="txt_existencia" id="txt_existencia" class="form-control" placeholder="Ingrese la existencia" required>
+                            </div>
+                            <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 <button type="submit" name="btn_agregar" id="btn_agregar" value="agregar" class="btn btn-primary">Guardar</button>
                                 <button type="submit" name="btn_modificar" id="btn_modificar" value="modificar" class="btn btn-success">Modificar</button>
@@ -60,12 +120,12 @@
             </div>
         </div>
 
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-striped table-bordered mt-4">
+            <thead class="table-header">
                 <tr>
                     <th scope="col">Producto</th>
                     <th scope="col">Marca</th>
-                    <th scope="col">Descripcion</th>
+                    <th scope="col">Descripción</th>
                     <th scope="col">Imagen</th>
                     <th scope="col">Precio Costo</th>
                     <th scope="col">Precio Venta</th>
@@ -81,7 +141,7 @@
                         out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                         out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
                         out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
-                        out.println("<td><a href='#' class='ver-imagen' data-src=\"" + tabla.getValueAt(t, 5) + "\"><img src=\"" + tabla.getValueAt(t, 5) + "\" alt=\"Producto\" width=\"100\" height=\"100\"></a></td>");
+                        out.println("<td><img src='" + tabla.getValueAt(t, 5) + "' alt='Producto' class='img-thumbnail' width='100' height='100' data-bs-toggle='modal' data-bs-target='#modalImagen' data-src='" + tabla.getValueAt(t, 5) + "'></td>");
                         out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
                         out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
                         out.println("<td>" + tabla.getValueAt(t, 8) + "</td>");
@@ -110,14 +170,14 @@
         </div>
         
         <div class="modal fade" id="modalImagen" tabindex="-1" aria-labelledby="modalImagenLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalImagenLabel">Visualizacion</h5>
+                        <h5 class="modal-title" id="modalImagenLabel">Visualización de Imagen</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
-                        <img id="imagenAmpliada" src="" alt="Producto" class="img-fluid">
+                        <img id="imagenAmpliada" src="" alt="Producto" class="modal-img">
                     </div>
                 </div>
             </div>
@@ -142,10 +202,8 @@
             $(document).ready(function() {
                 // Clic en el boton eliminar
                 $("#btnConfirmarEliminar").on("click", function() {
-                    // envia el valor eliminar
-                    $("#form_cliente").append('<input type="hidden" name="btn_eliminar" value="eliminar">');
-                    // enviar formulario al confirmar
-                    $("#form_cliente").submit();
+                    $("#form_producto").append('<input type="hidden" name="btn_eliminar" value="eliminar">');
+                    $("#form_producto").submit();
                 });
 
                 // Clic en una fila para editar
@@ -154,8 +212,7 @@
                     var id_producto = target.data('id_producto');
                     var producto = target.find("td").eq(0).html();
                     var id_marca = target.data('id_marca');
-                    var descripcion = target.find("td").eq(1).html();
-                    var imagen = target.find("td").eq(3).html();
+                    var descripcion = target.find("td").eq(2).html();
                     var precio_costo = target.find("td").eq(4).html();
                     var precio_venta = target.find("td").eq(5).html();
                     var existencia = target.find("td").eq(6).html();
@@ -170,8 +227,8 @@
                     $("#modal_productos").modal('show');
                 });
                 
-                 $('#tbl_productos').on('click', '.ver-imagen', function(e) {
-                    e.preventDefault();
+                // Clic en la imagen para ampliarla
+                $('#tbl_productos').on('click', '.img-thumbnail', function() {
                     var imgSrc = $(this).data('src');
                     $('#imagenAmpliada').attr('src', imgSrc);
                     $('#modalImagen').modal('show');

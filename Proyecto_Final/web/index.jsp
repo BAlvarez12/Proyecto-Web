@@ -11,10 +11,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
@@ -24,8 +23,33 @@
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #20b46c;
-            padding-top: 20px;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            padding-top: 50px;
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+        }
+        .sidebar h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            text-align: center;
+            color: #ffffff; /* Cambiar color a blanco para más contraste */
+            text-transform: uppercase; /* Transformar a mayúsculas */
+            text-shadow: 7px 4px 4px rgba(0, 0, 0, 0.3); /* Sombra ligera para dar profundidad */
+            margin-bottom: 20px; /* Aumentar el espaciado debajo del título */
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-collapsed {
+            width: 60px;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .sidebar-collapsed h3 {
+            display: none; /* Ocultar h3 cuando el sidebar está colapsado */
         }
 
         .sidebar a {
@@ -37,12 +61,12 @@
         }
 
         .sidebar a:hover {
-            background-color: #1a73e8;
+            background-color: #5a67d8;
             color: white;
         }
 
         .sidebar a i {
-            margin-right: 5px;
+            margin-right: 20px;
             vertical-align: middle;
             position: relative;
             top: -2px;
@@ -51,24 +75,76 @@
         .content {
             margin-left: 250px;
             padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .content-collapsed {
+            margin-left: 60px;
+        }
+
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ff4d4d;
+            color: white;
+            border-radius: 50%;
+            border: none;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logout-button:hover {
+            background-color: #e63946;
+        }
+
+        .toggle-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: transparent;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            outline: none;
+            margin-bottom: 50px;
         }
     </style>
 </head>
 <body>
 
+    <!-- Botón de Cerrar Sesión -->
+    <form action="sr_logout" method="post">
+        <button type="submit" class="logout-button" title="Cerrar Sesión">
+            <i class="material-icons">exit_to_app</i>
+        </button>
+    </form>
+
     <!-- Sidebar -->
-    <div class="sidebar">
-        <h3 class="text-black text-center">Sains Mall</h3>
-        <a href="javascript:void(0);" id="empleados-link"><i class="material-icons">person</i> Empleados</a>
-        <a href="javascript:void(0);" id="Puestos-link"><i class="material-icons">switch_account</i> Puestos</a>
-        <a href="javascript:void(0);" id="clientes-link"><i class="material-icons">person_pin</i> Clientes</a>
-        <a href="javascript:void(0);" id="proveedores-link"><i class="material-icons">group</i> Proveedores</a>
-        <a href="javascript:void(0);" id="marcas-link"><i class="material-icons">add_box</i> Marcas</a>
-        <a href="javascript:void(0);" id="productos-link"><i class="material-icons">local_shipping</i> Productos</a>
-        <a href="javascript:void(0);"><i class="material-icons">account_circle</i> Usuarios</a>
+    <div class="sidebar" id="sidebar">
+        <!-- Botón de Menú Hamburguesa -->
+        <button class="toggle-button" id="toggle-sidebar" title="Mostrar/Ocultar Sidebar">
+            <i class="material-icons">menu</i>
+        </button>
+        <h3>Sains Mall</h3>
+        <a href="javascript:void(0);" id="ventas-link"><i class="material-icons">storefront</i> <span class="link-text">Ventas</span></a>
+        <a href="javascript:void(0);" id="clientes-link"><i class="material-icons">person_pin</i> <span class="link-text">Clientes</span></a>
+        <a href="javascript:void(0);" id="proveedores-link"><i class="material-icons">group</i> <span class="link-text">Proveedores</span></a>
+        <a href="javascript:void(0);" id="productos-link"><i class="material-icons">local_shipping</i> <span class="link-text">Productos</span></a>
+        <a href="javascript:void(0);" id="marcas-link"><i class="material-icons">add_box</i> <span class="link-text">Marcas</span></a>
+        <a href="javascript:void(0);" id="empleados-link"><i class="material-icons">person</i> <span class="link-text">Empleados</span></a>
+        <a href="javascript:void(0);" id="Puestos-link"><i class="material-icons">switch_account</i> <span class="link-text">Puestos</span></a>
+        <a href="javascript:void(0);" id="usuarios-link"><i class="material-icons">account_circle</i> <span class="link-text">Usuarios</span></a>
+        <a href="javascript:void(0);" id="roles-link"><i class="material-icons">supervisor_account</i> <span class="link-text">Roles</span></a>
     </div>
-   
-    <div class="content">
+
+    <div class="content" id="content">
         <div id="contenido-dinamico"></div>
 
         <!-- Verifica si hay mensaje -->
@@ -123,7 +199,33 @@
             });
             // Cargar el contenido de productos
             $('#productos-link').click(function(){
-            $('#contenido-dinamico').load('productos.jsp');
+                $('#contenido-dinamico').load('productos.jsp');
+            });
+            $('#usuarios-link').click(function(){
+                $('#contenido-dinamico').load('usuarios.jsp');
+            });
+            $('#roles-link').click(function(){
+                $('#contenido-dinamico').load('roles.jsp');
+            });
+            
+            $('#ventas-link').click(function(){
+                $('#contenido-dinamico').load('ventas.jsp');
+            });
+
+            // oculta o muestra el sidebar
+            $('#toggle-sidebar').click(function() {
+                $('#sidebar').toggleClass('sidebar-collapsed');
+                $('#content').toggleClass('content-collapsed');
+
+                if ($('#sidebar').hasClass('sidebar-collapsed')) {
+                    $('#toggle-sidebar i').text('chevron_right');
+                    $('.link-text').hide();
+                    $('#sidebar h3').hide();
+                } else {
+                    $('#toggle-sidebar i').text('menu');
+                    $('.link-text').show();
+                    $('#sidebar h3').show();
+                }
             });
         });
     </script>

@@ -5,6 +5,22 @@
         <servlet-name>sr_empleado</servlet-name>
         <servlet-class>controlador.sr_empleado</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sr_logout</servlet-name>
+        <servlet-class>controlador.sr_logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sr_usuarios</servlet-name>
+        <servlet-class>controlador.sr_usuarios</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sr_roles</servlet-name>
+        <servlet-class>controlador.sr_roles</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sr_ventas</servlet-name>
+        <servlet-class>controlador.sr_ventas</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>sr_empleado</servlet-name>
         <url-pattern>/sr_empleado</url-pattern>
@@ -54,7 +70,7 @@
         <servlet-name>sr_productos</servlet-name>
         <url-pattern>/sr_productos</url-pattern>
     </servlet-mapping>
-     <servlet>
+    <servlet>
         <servlet-name>login</servlet-name>
         <servlet-class>controlador.login</servlet-class>
     </servlet>
@@ -62,12 +78,28 @@
         <servlet-name>login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
-   <filter>
-    <filter-name>AuthFilter</filter-name>
-    <filter-class>filtros.AuthFilter</filter-class>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>filtros.authenticator</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>sr_logout</servlet-name>
+        <url-pattern>/sr_logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sr_usuarios</servlet-name>
+        <url-pattern>/sr_usuarios</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sr_roles</servlet-name>
+        <url-pattern>/sr_roles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sr_ventas</servlet-name>
+        <url-pattern>/sr_ventas</url-pattern>
+    </servlet-mapping>
 </web-app>

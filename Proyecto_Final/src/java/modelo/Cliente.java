@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -99,8 +100,25 @@ public class Cliente {
     public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
-   
-  
+    
+    public HashMap drop_clientes(){
+    HashMap<String,String> drop = new HashMap();
+    try{
+        cn= new Conexion ();
+        String query="select id_cliente, concat(nombres,' ', apellidos) as cliente from clientes order by id_cliente asc;";
+        cn.abrir_conexion();
+        ResultSet consulta = cn.conexionDB.createStatement().executeQuery(query);
+        while(consulta.next()){
+        drop.put(consulta.getString("id_cliente"), consulta.getString("cliente"));
+        }
+       cn.cerrar_conexion();
+    }catch(SQLException ex){
+    System.out.println(ex.getMessage());
+    }
+    return drop;
+    }
+    
+    
     // Metodo leer datos del cliente
     public DefaultTableModel leer(){
         DefaultTableModel tabla = new DefaultTableModel();

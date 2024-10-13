@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -107,6 +108,23 @@ public class Productos {
 
     public void setFecha_ingreso(java.sql.Timestamp fecha_ingreso) {
         this.fecha_ingreso = fecha_ingreso;
+    }
+    
+     public HashMap drop_productos(){
+    HashMap<String,String> drop = new HashMap();
+    try{
+        cn= new Conexion ();
+        String query="select id_producto, producto from productos order by id_producto asc;";
+        cn.abrir_conexion();
+        ResultSet consulta = cn.conexionDB.createStatement().executeQuery(query);
+        while(consulta.next()){
+        drop.put(consulta.getString("id_producto"), consulta.getString("producto"));
+        }
+       cn.cerrar_conexion();
+    }catch(SQLException ex){
+    System.out.println(ex.getMessage());
+    }
+    return drop;
     }
     
     

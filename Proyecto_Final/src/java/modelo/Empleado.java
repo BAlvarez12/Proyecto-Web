@@ -6,6 +6,7 @@ package modelo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -67,6 +68,24 @@ public class Empleado extends Persona {
 
     public void setGenero(int genero) {
         this.genero = genero;
+    }
+    
+    
+    public HashMap drop_empleados(){
+    HashMap<String,String> drop = new HashMap();
+    try{
+        cn= new Conexion ();
+        String query="select id_empleados, concat(nombres,' ', apellidos) as empleado from empleados order by id_empleados asc;";
+        cn.abrir_conexion();
+        ResultSet consulta = cn.conexionDB.createStatement().executeQuery(query);
+        while(consulta.next()){
+        drop.put(consulta.getString("id_empleados"), consulta.getString("empleado"));
+        }
+       cn.cerrar_conexion();
+    }catch(SQLException ex){
+    System.out.println(ex.getMessage());
+    }
+    return drop;
     }
     
     // METODO LEER DATOS DEL EMPLEADO

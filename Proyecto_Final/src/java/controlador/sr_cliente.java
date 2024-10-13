@@ -45,7 +45,10 @@ public class sr_cliente extends HttpServlet {
         }
         
             
-           cliente = new Cliente(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),Integer.parseInt(request.getParameter("txt_nit")),genero,Integer.parseInt(request.getParameter("txt_telefono")),request.getParameter("txt_ce"),new java.sql.Timestamp(System.currentTimeMillis()));
+           cliente = new Cliente(Integer.parseInt(request.getParameter("txt_id")),request.getParameter("txt_nombres"),
+                   request.getParameter("txt_apellidos"),Integer.parseInt(request.getParameter("txt_nit")),
+                   genero,Integer.parseInt(request.getParameter("txt_telefono")),request.getParameter("txt_ce"),
+                   new java.sql.Timestamp(System.currentTimeMillis()));
             
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (cliente.agregar() > 0) {

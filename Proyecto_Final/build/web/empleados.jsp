@@ -8,11 +8,45 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .modal-body {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+        .form-control {
+            border-radius: 0.5rem;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .modal-footer {
+            border-top: none;
+        }
+        h1 {
+            color: #00bfa5;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        .btn-custom {
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .table-header {
+            background-color: #000000;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h1>Empleados</h1>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_empleado" onclick="limpiar()">Agregar</button>
+    <div class="container mt-5">
+        <h1 class="text-center">Empleados</h1>
+        <div class="d-flex justify-content-end mb-4">
+            <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#modal_empleado" onclick="limpiar()">Agregar Empleado</button>
+        </div>
         <div class="modal fade" id="modal_empleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -22,43 +56,63 @@
                     </div>
                     <div class="modal-body">
                         <form action="sr_empleado" method="post" id="form_empleado" class="form-group">
-                            <label for="lbl_id"><b>ID:</b></label>
-                            <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
-                            <label for="lbl_nombres"><b>Nombres:</b></label>
-                            <input type="text" name="txt_nombres" id="txt_nombres" class="form-control" placeholder="Ingrese el Nombre" required>
-                            <label for="lbl_apellidos"><b>Apellidos:</b></label>
-                            <input type="text" name="txt_apellidos" id="txt_apellidos" class="form-control" placeholder="Ingrese el Apellido" required>
-                            <label for="lbl_direccion"><b>Direccion:</b></label>
-                            <input type="text" name="txt_direccion" id="txt_direccion" class="form-control" placeholder="Ingrese la Direccion" required>
-                            <label for="lbl_telefono"><b>Telefono:</b></label>
-                            <input type="number" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ingrese el numero de telefono" required>
-                            <label for="lbl_dpi"><b>Numero de Identificacion:</b></label>
-                            <input type="number" name="txt_dpi" id="txt_dpi" class="form-control" placeholder="Ingrese el numero de identificacion" required>
-                            <label for="txt_genero"><b>Género</b></label>
-                            <select name="txt_genero" id="txt_genero" class="form-control" required>
-                            <option value="">Seleccione un género</option>
-                            <option value="1">Masculino</option>
-                            <option value="0">Femenino</option>
-                            </select>
-                            <label for="lbl_fn"><b>Fecha Nacimiento:</b></label>
-                            <input type="date" name="txt_fn" id="txt_fn" class="form-control" placeholder="Ingrese la fecha de nacimiento" required>
-                            <label for="lbl_puesto"><b>Tipo de Puesto:</b></label>
-                            <select name="drop_puesto" id="drop_puesto" class="form-control">
-                               <%
-                                  Puesto puesto = new Puesto();
-                                  HashMap<String,String> drop = puesto.drop_puesto();
-                                  for(String i: drop.keySet()){
-                                    out.println("<option value='" + i + "'>" + drop.get(i) + "</option>");
-                                  }
-                               %>
-                            </select>
-                            <label for="lbl_fe_inicio"><b>Fecha inicio de labores:</b></label>
-                            <input type="date" name="txt_fe_inicio" id="txt_fe_inicio" class="form-control" placeholder="Ingrese la fecha de inicio de labores" required>
-                            <label for="lbl_fe_ingreso"><b>Fecha ingreso:</b></label>
-                            <input type="date" name="txt_fe_ingreso" id="txt_fe_ingreso" class="form-control" placeholder="Ingrese la fecha de ingreso" required>
-                            <br>
-                
-                            <div class="modal-footer">
+                            <div class="mb-3">
+                                <label for="txt_id" class="form-label">ID:</label>
+                                <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_nombres" class="form-label">Nombres:</label>
+                                <input type="text" name="txt_nombres" id="txt_nombres" class="form-control" placeholder="Ingrese el Nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_apellidos" class="form-label">Apellidos:</label>
+                                <input type="text" name="txt_apellidos" id="txt_apellidos" class="form-control" placeholder="Ingrese el Apellido" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_direccion" class="form-label">Dirección:</label>
+                                <input type="text" name="txt_direccion" id="txt_direccion" class="form-control" placeholder="Ingrese la Dirección" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_telefono" class="form-label">Teléfono:</label>
+                                <input type="number" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ingrese el número de teléfono" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_dpi" class="form-label">Número de Identificación:</label>
+                                <input type="number" name="txt_dpi" id="txt_dpi" class="form-control" placeholder="Ingrese el número de identificación" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_genero" class="form-label">Género:</label>
+                                <select name="txt_genero" id="txt_genero" class="form-select" required>
+                                    <option value="">Seleccione un género</option>
+                                    <option value="1">Masculino</option>
+                                    <option value="0">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_fn" class="form-label">Fecha de Nacimiento:</label>
+                                <input type="date" name="txt_fn" id="txt_fn" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="drop_puesto" class="form-label">Tipo de Puesto:</label>
+                                <select name="drop_puesto" id="drop_puesto" class="form-select">
+                                   <%
+                                      Puesto puesto = new Puesto();
+                                      HashMap<String,String> drop = puesto.drop_puesto();
+                                      for(String i: drop.keySet()){
+                                        out.println("<option value='" + i + "'>" + drop.get(i) + "</option>");
+                                      }
+                                   %>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_fe_inicio" class="form-label">Fecha de Inicio de Labores:</label>
+                                <input type="date" name="txt_fe_inicio" id="txt_fe_inicio" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txt_fe_ingreso" class="form-label">Fecha de Ingreso:</label>
+                                <input type="date" name="txt_fe_ingreso" id="txt_fe_ingreso" class="form-control" required>
+                            </div>
+                            <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 <button name="btn_agregar" id="btn_agregar" value="agregar" class="btn btn-primary">Guardar</button>
                                 <button name="btn_modificar" id="btn_modificar" value="modificar" class="btn btn-success">Modificar</button>
@@ -70,19 +124,19 @@
             </div>
         </div>
 
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-striped table-bordered mt-4">
+            <thead class="table-header">
                 <tr>
                     <th scope="col">Nombres</th>
                     <th scope="col">Apellidos</th>
-                    <th scope="col">Direccion</th>
-                    <th scope="col">Telefono</th>
-                    <th scope="col">Dpi</th>
-                    <th scope="col">Genero</th>
-                    <th scope="col">Fecha Nacimiento</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">DPI</th>
+                    <th scope="col">Género</th>
+                    <th scope="col">Fecha de Nacimiento</th>
                     <th scope="col">Puesto</th>
-                    <th scope="col">Fecha inicio labores</th>
-                    <th scope="col">Fecha ingreso</th>
+                    <th scope="col">Fecha de Inicio</th>
+                    <th scope="col">Fecha de Ingreso</th>
                 </tr>
             </thead>
             <tbody id="tbl_empleado">
@@ -118,7 +172,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Esta seguro de que deseas eliminar este empleado?
+                    ¿Está seguro de que desea eliminar este empleado?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -132,7 +186,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="text/javascript">
-        function limpiar(){
+        function limpiar() {
             $("#txt_id").val(0);
             $("#txt_nombres").val('');
             $("#txt_apellidos").val('');
@@ -147,20 +201,15 @@
         }
 
         $(document).ready(function() {
-            // Clic en el boton eliminar
+            // Clic en el botón eliminar
             document.getElementById("btnConfirmarEliminar").addEventListener("click", function() {
-                // envia el valor eliminar
                 var form = document.getElementById("form_empleado");
                 var inputEliminar = document.createElement("input");
                 inputEliminar.setAttribute("type", "hidden");
                 inputEliminar.setAttribute("name", "btn_eliminar");
                 inputEliminar.setAttribute("value", "eliminar");
                 form.appendChild(inputEliminar);
-
-                // enviar formulario al confirmar
                 form.submit();
-
-                // cierra el modal
                 var modalEl = document.getElementById('modalConfirmacion');
                 var modal = bootstrap.Modal.getInstance(modalEl);
                 modal.hide();
