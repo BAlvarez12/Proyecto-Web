@@ -127,7 +127,6 @@
         $(document).ready(function() {
             // Cuando el usuario haga clic en el botón de confirmar eliminación
             $("#btnConfirmarEliminar").on("click", function() {
-                // Crear un campo oculto para enviar el valor "eliminar"
                 $("#form_rol").append('<input type="hidden" name="btn_eliminar" value="eliminar">');
                 // Enviar el formulario al confirmar eliminación
                 $("#form_rol").submit();

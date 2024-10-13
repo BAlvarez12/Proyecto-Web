@@ -2,7 +2,7 @@
 <%
     // Verificar si el usuario está autenticado
     if (session.getAttribute("usuario") == null) {
-        // Si no está autenticado, redirigir a home.jsp
+        // Si no está autenticado redirigir a home.jsp
         response.sendRedirect("home.jsp");
         return;
     }
@@ -32,10 +32,10 @@
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             text-align: center;
-            color: #ffffff; /* Cambiar color a blanco para más contraste */
-            text-transform: uppercase; /* Transformar a mayúsculas */
-            text-shadow: 7px 4px 4px rgba(0, 0, 0, 0.3); /* Sombra ligera para dar profundidad */
-            margin-bottom: 20px; /* Aumentar el espaciado debajo del título */
+            color: #ffffff; 
+            text-transform: uppercase; 
+            text-shadow: 7px 4px 4px rgba(0, 0, 0, 0.3); 
+            margin-bottom: 20px; 
             transition: all 0.3s ease-in-out;
         }
 
@@ -49,7 +49,7 @@
         }
 
         .sidebar-collapsed h3 {
-            display: none; /* Ocultar h3 cuando el sidebar está colapsado */
+            display: none;
         }
 
         .sidebar a {

@@ -15,7 +15,7 @@ public class authenticator implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // Inicialización del filtro, si es necesario
+        // Inicia el filtro, si es necesario
     }
 
     @Override
@@ -24,15 +24,11 @@ public class authenticator implements Filter {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-
         // Verificar si el usuario tiene una sesión válida
         HttpSession session = httpRequest.getSession(false);
-
         // URL de la página de login
         String loginURI = httpRequest.getContextPath() + "/home.jsp";
         String loginServlet = httpRequest.getContextPath() + "/login";
-
-        // Verificar si la solicitud es para la página de login, el servlet de login o si el usuario ya está autenticado
         boolean isLoginRequest = httpRequest.getRequestURI().equals(loginURI);
         boolean isLoginAction = httpRequest.getRequestURI().equals(loginServlet);
         boolean loggedIn = (session != null && session.getAttribute("usuario") != null);
